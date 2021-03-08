@@ -45,9 +45,8 @@ const subversion = {
         const lines = data.split(/\n/);
 
         lines.forEach((line, index) => {
-            if (line.substring(5, 6) === '-') return;
             const revision = line.split(' ').filter(s => s)[0];
-            if (revision) this.revisions[index] = parseInt(revision);
+            if (revision && revision != '-') this.revisions[index] = parseInt(revision);
         });
 
         return this.revisions;
