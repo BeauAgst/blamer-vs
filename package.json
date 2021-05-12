@@ -8,6 +8,11 @@
         "type": "git",
         "url": "https://github.com/BeauAgst/blamer-vs.git"
     },
+    "bugs": {
+        "url": "https://github.com/BeauAgst/blamer-vs/issues"
+    },
+    "homepage": "https://github.com/BeauAgst/blamer-vs",
+    "icon": "img/blamer.png",
     "engines": {
         "vscode": "^1.17.0"
     },
