@@ -29,7 +29,7 @@ const subversion = {
             const process = child_process.spawn(script, { shell: true })
 
             let [stdout, stderr] = ['', ''];
-            process.stderr.on('data', data => { stderr += data.toString() });
+            process.stderr.on('data', data => { stderr += data.toString() });-
             process.stdout.on('data', data => { stdout += data.toString(); });
             process.stdout.on('close', code => {
                 if (stderr || code) {
@@ -45,7 +45,8 @@ const subversion = {
         const lines = data.split(/\n/);
 
         lines.forEach((line, index) => {
-            if (line.substring(5, 6) === '-') return;
+            // ignore some line that not commit
+            if (line.match(/^\s+-/)) return;
             const revision = line.split(' ').filter(s => s)[0];
             if (revision) this.revisions[index] = parseInt(revision);
         });
