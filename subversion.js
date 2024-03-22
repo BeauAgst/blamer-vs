@@ -45,7 +45,7 @@ const subversion = {
         const lines = data.split(/\n/);
 
         lines.forEach((line, index) => {
-            if (line.substring(5, 6) === '-') return;
+            if (line.match(/^ {6,}-/)) return; // Lines start with at least 6 spaces and a '-', indicates uncommitted changes.
             const revision = line.split(' ').filter(s => s)[0];
             if (revision) this.revisions[index] = parseInt(revision);
         });
