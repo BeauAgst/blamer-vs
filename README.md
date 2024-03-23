@@ -20,7 +20,7 @@ Currently, only a single keyboard shortcut is available.
 
 ## Features
 
-When run, this extension will place an icon next to each line of your file. Each differently-coloured icon means a different revision. Hovering a line will produce a tooltip, showing the committer, date, and message.For example, if you're working on a project and you want to see who modified a specific line:
+When run, this extension will place an icon next to each line of your file. Each differently-coloured icon means a different revision. Hovering a line will produce a tooltip, showing the committer, date, and message. For example, if you're working on a project and you want to see who modified a specific line:
 
 https://github.com/BeauAgst/blamer-vs/assets/10343831/bcdcd279-06b9-42cf-a162-a8740d29c88d
 
@@ -33,9 +33,9 @@ This extension requires that you're either:
 
 ## Extension Settings
 
-**Enable Details** - By default, hovering over a line will display the log message for it's revision. This can be turned off, which will significantly speed up the blame action.
+**Enable Details** - By default, hovering over a line will display the log message for its revision. This can be turned off, which will significantly speed up the blame action.
 
-**Enable Pips** - By default, the extension displays a coloured pip next to each line number. This can be turned off, whilst still showing the blame log in the tooltip.
+**Enable Visual Indicator** - By default, the extension displays a coloured indicator next to each line number. This can be turned off, whilst still showing the blame log in the tooltip.
 
 ## Known Issues
 
@@ -43,6 +43,10 @@ This extension requires that you're either:
 - Authentication errors [#5](https://github.com/BeauAgst/blamer-vs/issues/5), [#9](https://github.com/BeauAgst/blamer-vs/issues/9)
 
 ## Release Notes
+
+## 0.5.2
+
+- Fixed a bug where the commit author disappeared
 
 ## 0.5.1
 
@@ -53,7 +57,7 @@ This extension requires that you're either:
 ## 0.5.0
 
 - Mac blame shortcut added
-- Setting added to disable visual pips [#10](https://github.com/BeauAgst/blamer-vs/issues/10)
+- Setting added to toggle visual indicator visibility [#10](https://github.com/BeauAgst/blamer-vs/issues/10)
 - Better error handling, blame indicator in workbench [#3](https://github.com/BeauAgst/blamer-vs/issues/3)
 
 ## 0.4.0

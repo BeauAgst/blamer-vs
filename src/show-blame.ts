@@ -12,9 +12,8 @@ import { EXTENSION_CONFIGURATION, EXTENSION_NAME } from "./const/extension";
 export const showBlame = async (
   existingDecorations: vscode.TextEditorDecorationType[]
 ): Promise<vscode.TextEditorDecorationType[]> => {
-  const { enableLogs, enablePips } = vscode.workspace.getConfiguration(
-    `${EXTENSION_CONFIGURATION}.blame`
-  );
+  const { enableLogs, enableVisualIndicators } =
+    vscode.workspace.getConfiguration(`${EXTENSION_CONFIGURATION}.blame`);
   const statusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left,
     0
@@ -33,7 +32,9 @@ export const showBlame = async (
       return [];
     }
 
-    const generator = enablePips ? await gutterImageGenerator() : undefined;
+    const generator = enableVisualIndicators
+      ? await gutterImageGenerator()
+      : undefined;
 
     const filePath = editor?.document.fileName;
 

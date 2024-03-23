@@ -41,16 +41,16 @@
           "description": "Enables popup revision log data. Disabling this setting will significantly speed up blame.",
           "type": "boolean"
         },
-        "svnGutter.blame.enablePips": {
+        "svnGutter.blame.enableVisualIndicators": {
           "default": true,
-          "description": "Enable/Disable visual 'pip' decoration, that sits to the left of the line number.",
+          "description": "Enable/Disable visual indicators that sit to the left of the line number.",
           "type": "boolean"
         }
       }
     },
     "keybindings": [
       {
-        "command": "blamer-vs.blameFile",
+        "command": "blamer-vs.showBlame",
         "key": "ctrl+alt+d",
         "mac": "ctrl+cmd+x",
         "when": "editorTextFocus"
