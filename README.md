@@ -42,6 +42,14 @@ This extension requires that you're either:
 - A little bit slow, because all unique logs have to be retrieved first. ([#3](https://github.com/BeauAgst/blamer-vs/issues/3))
 - Authentication errors [#5](https://github.com/BeauAgst/blamer-vs/issues/5), [#9](https://github.com/BeauAgst/blamer-vs/issues/9)
 
+## TODO
+
+- Per-file blame management. Currently only handles one file at a time
+- Configurable SVN path
+- In-line blame messages, a-la git lens
+- Add a blame "toggle" that goes between show/hide
+- Add optional sidebar button to toggle blame on active file
+
 ## Release Notes
 
 ## 0.5.2
