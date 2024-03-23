@@ -1,72 +1,86 @@
 {
-    "name": "blamer-vs",
-    "displayName": "SVN Gutter",
-    "description": "Visually blame SVN-stored code line-by-line",
-    "version": "0.5.2",
-    "publisher": "beaugust",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/BeauAgst/blamer-vs.git"
-    },
-    "bugs": {
-        "url": "https://github.com/BeauAgst/blamer-vs/issues"
-    },
-    "homepage": "https://github.com/BeauAgst/blamer-vs",
-    "icon": "img/blamer.png",
-    "license": "MIT",
-    "engines": {
-        "vscode": "^1.17.0"
-    },
-    "categories": [
-        "SCM Providers",
-        "Other"
+  "name": "blamer-vs",
+  "displayName": "SVN Gutter",
+  "description": "Visually blame SVN-stored code line-by-line",
+  "version": "0.6.0",
+  "publisher": "beaugust",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeauAgst/blamer-vs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BeauAgst/blamer-vs/issues"
+  },
+  "homepage": "https://github.com/BeauAgst/blamer-vs",
+  "icon": "img/blamer.png",
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "blamer-vs.showBlame",
+        "title": "SVN Gutter: Show blame"
+      },
+      {
+        "command": "blamer-vs.clearBlame",
+        "title": "SVN Gutter: Clear blame"
+      }
     ],
-    "activationEvents": [
-        "onCommand:extension.blameFile"
-    ],
-    "main": "./extension",
-    "contributes": {
-        "keybindings": [
-            {
-                "command": "extension.blameFile",
-                "key": "ctrl+alt+d",
-                "mac": "ctrl+cmd+x",
-                "when": "editorTextFocus"
-            }
-        ],
-        "commands": [
-            {
-                "command": "extension.blameFile",
-                "title": "SVN Gutter - Show Blame"
-            },
-            {
-                "command": "extension.clearBlame",
-                "title": "SVN Gutter - Clear Blame"
-            }
-        ],
-        "configuration": {
-            "type": "object",
-            "title": "SVN Gutter configuration",
-            "properties": {
-                "svn-gutter.enablePips": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Enable/Disable visual 'pip' decoration, that sits alongside the line number."
-                }
-            }
+    "configuration": {
+      "title": "SVN Gutter",
+      "type": "object",
+      "properties": {
+        "svnGutter.blame.enableLogs": {
+          "default": true,
+          "description": "Enables popup revision log data. Disabling this setting will significantly speed up blame.",
+          "type": "boolean"
+        },
+        "svnGutter.blame.enablePips": {
+          "default": true,
+          "description": "Enable/Disable visual 'pip' decoration, that sits to the left of the line number.",
+          "type": "boolean"
         }
+      }
     },
-    "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "@types/mocha": "^9.1.1",
-        "@types/node": "^18.14.5",
-        "eslint": "^8.14.0",
-        "mocha": "^9.2.2",
-        "typescript": "^4.9.5",
-        "vscode": "^1.1.37"
-    },
-    "dependencies": {}
+    "keybindings": [
+      {
+        "command": "blamer-vs.blameFile",
+        "key": "ctrl+alt+d",
+        "mac": "ctrl+cmd+x",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "compile-tests": "tsc -p . --outDir out",
+    "compile": "webpack",
+    "lint": "eslint src --ext ts",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "test": "vscode-test",
+    "vscode:prepublish": "yarn run package",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "watch": "webpack --watch"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.87.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "@vscode/test-cli": "^0.0.6",
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.56.0",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  }
 }

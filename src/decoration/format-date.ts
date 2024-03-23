@@ -14,26 +14,36 @@ const months = [
 ];
 
 const days = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
 ];
 
-const nth = (d) => {
-  if(d>3 && d<21) return 'th';
-  switch (d % 10) {
-    case 1: return "st";
-    case 2: return "nd";
-    case 3: return "rd";
-    default: return "th";
+const nth = (day: number) => {
+  if (day > 3 && day < 21) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
   }
 };
 
-module.exports = (dateString) => {
+export const formatDate = (dateString?: string) => {
+  if (!dateString) {
+    return undefined;
+  }
+
   const date = new Date(dateString);
   const day = date.getDate();
   const dayIndex = date.getDay();
