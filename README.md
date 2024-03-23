@@ -4,6 +4,7 @@
 ![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/beaugust.blamer-vs?style=for-the-badge)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/beaugust.blamer-vs?style=for-the-badge)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/beaugust.blamer-vs?style=for-the-badge)
+
 # SVN Gutter
 
 This is the Visual Studio Code version of the [Blamer](https://github.com/BeauAgst/Blamer) plugin, built for Sublime Text. [Pull requests are always welcome!](https://github.com/BeauAgst/blamer-vs/issues/)
@@ -50,11 +51,11 @@ This extension requires that you're either:
 
 ## TODO
 
-- Per-file blame management. Currently only handles one file at a time
+- Per-file blame management. Currently only handles one file at a time. Look at storage solutions
 - Configurable SVN path
 - In-line blame messages, a-la git lens
-- Add a blame "toggle" that goes between show/hide
-- Add optional sidebar button to toggle blame on active file
+- Add a blame "toggle" that goes between show/hideAdd an optional sidebar button to toggle blame on active file
+- Add an optional to auto-blame.
 
 ## Release Notes
 
