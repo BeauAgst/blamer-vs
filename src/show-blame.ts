@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { blameFile } from "./svn/blame-file";
-import { getRevisionsFromLines } from "./blamer/get-revisions-from-lines";
 import { getLogForRevision } from "./svn/get-log-for-revision";
 import { mapRevisionLogToDecorationData } from "./decoration/map-revision-log-to-decoration-data";
 import { gutterImageGenerator } from "./util/gutter-image-generator";
@@ -40,12 +39,11 @@ export const showBlame = async (
 
     statusBarItem.show();
     setStatusBarText(statusBarItem, "Blaming file...", "loading~spin");
-    const fileLines = await blameFile(filePath);
-    const revisions = getRevisionsFromLines(fileLines);
+    const groupedBlameData = await blameFile(filePath);
 
     const logs = await Promise.all(
-      Object.entries(revisions).map(
-        async ([revisionNumber, linesWithRevision]) => {
+      Object.entries(groupedBlameData).map(
+        async ([revisionNumber, blameData]) => {
           let revisionLog;
 
           if (enableLogs) {
@@ -58,7 +56,7 @@ export const showBlame = async (
           }
 
           return mapRevisionLogToDecorationData(
-            linesWithRevision,
+            blameData,
             generator?.next().value,
             revisionLog
           );

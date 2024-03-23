@@ -1,28 +1,23 @@
-import { RevisionLog } from "../svn/map-data-to-revision-log";
-import { formatDate } from "./format-date";
+import { GroupedBlameData } from "../svn/map-blame-output-to-blame-data";
+import { formatHoverMessage } from "./format-hover-message";
+import { formatLineMessage } from "./format-line-message";
 
 export type DecorationData = {
+  afterMessage?: string;
   gutterImagePath?: string;
-  lines: number[];
-  message?: string;
+  hoverMessage?: string;
+  lines: string[];
 };
 
 export const mapRevisionLogToDecorationData = (
-  lines: number[],
+  blameData: GroupedBlameData,
   gutterImagePath?: string,
-  revisionLog?: RevisionLog
+  revisionLog?: string
 ): DecorationData => {
   return {
+    afterMessage: formatLineMessage(blameData),
     gutterImagePath,
-    lines,
-    message:
-      revisionLog &&
-      [
-        `${revisionLog?.number}: ${revisionLog?.author}`,
-        formatDate(revisionLog?.date),
-        revisionLog?.message,
-      ]
-        .filter(Boolean)
-        .join("\n\n"),
+    hoverMessage: formatHoverMessage(blameData, revisionLog),
+    lines: blameData.lines,
   };
 };

@@ -69,6 +69,7 @@
     "watch": "webpack --watch"
   },
   "devDependencies": {
+    "@types/luxon": "^3.4.2",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
     "@types/vscode": "^1.87.0",
@@ -82,5 +83,9 @@
     "typescript": "^5.4.3",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "luxon": "^3.4.4",
+    "xml-js": "^1.6.11"
   }
 }

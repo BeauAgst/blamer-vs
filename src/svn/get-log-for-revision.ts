@@ -1,12 +1,12 @@
-import { RevisionLog, mapDataToRevisionLog } from "./map-data-to-revision-log";
+import { mapLogOutputToMessage } from "./map-log-output-to-message";
 import { spawnProcess } from "../util/spawn-process";
 
 export const getLogForRevision = async (
   filePath: string,
   revisionNumber: string
-): Promise<RevisionLog> => {
+) => {
   const data = await spawnProcess(
-    `svn log -r ${revisionNumber} "${filePath}" --xml`
+    `svn log --xml -r ${revisionNumber} "${filePath}"`
   );
-  return mapDataToRevisionLog(data);
+  return mapLogOutputToMessage(data);
 };
