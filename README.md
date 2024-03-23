@@ -55,7 +55,13 @@ This extension requires that you're either:
 - Configurable SVN path
 - In-line blame messages, a-la git lens
 - Add a blame "toggle" that goes between show/hideAdd an optional sidebar button to toggle blame on active file
-- Add an optional to auto-blame.
+- Add an option to auto-blame on file open
+  - svn info ${FILEPATH} to check if blame-able
+- Automate release flow
+  - Tests pass
+  - https://github.com/marketplace/actions/gh-release
+  - https://github.com/marketplace/actions/vsix-publisher
+-
 
 ## Release Notes
 
