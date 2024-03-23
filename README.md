@@ -14,7 +14,7 @@ This extension contributes the following commands to the Command palette.
 
 Currently, only a single keyboard shortcut is available.
 
-**SVN Gutter - Show Blame**
+**SVN Gutter: Show Blame**
 `CTRL + ALT + D` (Windows)
 `CTRL + CMD + X` (Mac)
 
@@ -22,7 +22,7 @@ Currently, only a single keyboard shortcut is available.
 
 When run, this extension will place an icon next to each line of your file. Each differently-coloured icon means a different revision. Hovering a line will produce a tooltip, showing the committer, date, and message.For example, if you're working on a project and you want to see who modified a specific line:
 
-![Example Usage](example.mov)
+https://github.com/BeauAgst/blamer-vs/assets/10343831/bcdcd279-06b9-42cf-a162-a8740d29c88d
 
 ## Requirements
 
@@ -33,17 +33,13 @@ This extension requires that you're either:
 
 ## Extension Settings
 
-**Enable Pips** - By default, the extension displays a coloured pip next to each line number. This can be turned off, whilst still showing the blame information in the tooltip.
+**Enable Details** - By default, hovering over a line will display the log message for it's revision. This can be turned off, which will significantly speed up the blame action.
+**Enable Pips** - By default, the extension displays a coloured pip next to each line number. This can be turned off, whilst still showing the blame log in the tooltip.
 
 ## Known Issues
 
 - A little bit slow, because all unique logs have to be retrieved first. ([#3](https://github.com/BeauAgst/blamer-vs/issues/3))
 - Authentication errors [#5](https://github.com/BeauAgst/blamer-vs/issues/5), [#9](https://github.com/BeauAgst/blamer-vs/issues/9)
-
-## Future features
-
-- Automatic blame on file open
-- Ideas and contributions are always welcome!
 
 ## Release Notes
 
