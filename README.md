@@ -46,8 +46,8 @@ This extension requires that you're either:
 
 ## Known Issues
 
-- A little bit slow, because all unique logs have to be retrieved first. ([#3](https://github.com/BeauAgst/blamer-vs/issues/3))
-- Authentication errors [#5](https://github.com/BeauAgst/blamer-vs/issues/5), [#9](https://github.com/BeauAgst/blamer-vs/issues/9)
+- A little bit slow, because all unique logs have to be retrieved first. ([#3](/../../issues/3))
+- Authentication errors [#5](/../../issues/5), [#9](/../../issues/9)
 
 ## TODO
 
@@ -71,23 +71,23 @@ This extension requires that you're either:
 
 ## 0.5.1
 
-- Handle cases where author metadata is missing [#53](https://github.com/BeauAgst/blamer-vs/issues/53)
-- Use spawn instead of exec [#53](https://github.com/BeauAgst/blamer-vs/issues/53)
+- Handle cases where author metadata is missing [#53](/../../issues/53)
+- Use spawn instead of exec [#53](/../../issues/53)
 - Dependency updates
 
 ## 0.5.0
 
 - Mac blame shortcut added
-- Setting added to toggle visual indicator visibility [#10](https://github.com/BeauAgst/blamer-vs/issues/10)
-- Better error handling, blame indicator in workbench [#3](https://github.com/BeauAgst/blamer-vs/issues/3)
+- Setting added to toggle visual indicator visibility [#10](/../../issues/10)
+- Better error handling, blame indicator in workbench [#3](/../../issues/3)
 
 ## 0.4.0
 
-- Revision number added to tooltips [#7](https://github.com/BeauAgst/blamer-vs/issues/7)
+- Revision number added to tooltips [#7](/../../issues/7)
 
 ## 0.3.2
 
-- Fixed decoration issue causing characters to show incorrectly depending on the language [#6](https://github.com/BeauAgst/blamer-vs/issues/6)
+- Fixed decoration issue causing characters to show incorrectly depending on the language [#6](/../../issues/6)
 
 ## 0.3.1
 
@@ -96,7 +96,7 @@ This extension requires that you're either:
 
 ## 0.3.0
 
-- Linux support was added. [#2](https://github.com/BeauAgst/blamer-vs/issues/2)
+- Linux support was added. [#2](/../../issues/2)
 
 ## 0.2.0
 
