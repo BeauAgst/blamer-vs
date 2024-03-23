@@ -34,6 +34,7 @@ This extension requires that you're either:
 ## Extension Settings
 
 **Enable Details** - By default, hovering over a line will display the log message for it's revision. This can be turned off, which will significantly speed up the blame action.
+
 **Enable Pips** - By default, the extension displays a coloured pip next to each line number. This can be turned off, whilst still showing the blame log in the tooltip.
 
 ## Known Issues
