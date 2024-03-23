@@ -21,15 +21,22 @@
     "Other"
   ],
   "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
     "commands": [
+      {
+        "command": "blamer-vs.clearBlame",
+        "title": "SVN Gutter: Clear blame"
+      },
       {
         "command": "blamer-vs.showBlame",
         "title": "SVN Gutter: Show blame"
       },
       {
-        "command": "blamer-vs.clearBlame",
-        "title": "SVN Gutter: Clear blame"
+        "command": "blamer-vs.toggleBlame",
+        "title": "SVN Gutter: Toggle blame"
       }
     ],
     "configuration": {
@@ -53,6 +60,12 @@
         "command": "blamer-vs.showBlame",
         "key": "ctrl+alt+d",
         "mac": "ctrl+cmd+x",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "blamer-vs.toggleBlame",
+        "key": "ctrl+alt+e",
+        "mac": "ctrl+cmd+y",
         "when": "editorTextFocus"
       }
     ]

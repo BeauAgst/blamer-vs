@@ -7,22 +7,25 @@
 
 # SVN Gutter
 
-A Visual Studio Code extension to SVN blame files. 
-[Pull requests are always welcome!](/../../issues/)
+A Visual Studio Code extension to SVN blame files. [Pull requests are always welcome!](/../../issues/)
 
 ## Commands:
 
 This extension contributes the following commands to the Command palette.
 
-`SVN Gutter - Show Blame`: Adds icons to gutter with tooltips containing information from each revision
+`SVN Gutter - Clear blame`: Clears blame for the active file
 
-`SVN Gutter - Clear Blame`: Clears icons and tooltips
+`SVN Gutter - Show blame`: Adds indicators in the gutter, and a tooltip per line containing revision log data
+
+`SVN Gutter - Toggle blame`: Toggles between "Clear" and "Show" states
 
 ## Shortcuts:
 
-Currently, only a single keyboard shortcut is available.
+**SVN Gutter: Show blame**
+`CTRL + ALT + D` (Windows)
+`CTRL + CMD + X` (Mac)
 
-**SVN Gutter: Show Blame**
+**SVN Gutter: Toggle blame**
 `CTRL + ALT + D` (Windows)
 `CTRL + CMD + X` (Mac)
 
@@ -52,10 +55,8 @@ This extension requires that you're either:
 
 ## TODO
 
-- Per-file blame management. Currently only handles one file at a time. Look at storage solutions
 - Configurable SVN path
 - In-line blame messages, a-la git lens
-- Add a blame "toggle" that goes between show/hide
 - Add an optional sidebar button to toggle blame on active file
 - Add an option to auto-blame on file open
   - svn info ${FILEPATH} to check if blame-able

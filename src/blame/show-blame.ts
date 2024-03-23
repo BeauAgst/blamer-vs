@@ -1,16 +1,17 @@
 import * as vscode from "vscode";
-import { blameFile } from "./svn/blame-file";
-import { getLogForRevision } from "./svn/get-log-for-revision";
-import { mapRevisionLogToDecorationData } from "./decoration/map-revision-log-to-decoration-data";
-import { gutterImageGenerator } from "./util/gutter-image-generator";
-import { setDecorationForLines } from "./decoration/set-decoration-for-lines";
-import { clearBlame } from "./clear-blame";
-import { setStatusBarText } from "./util/set-status-bar-text";
-import { EXTENSION_CONFIGURATION, EXTENSION_NAME } from "./const/extension";
+import { blameFile } from "../svn/blame-file";
+import { getLogForRevision } from "../svn/get-log-for-revision";
+import { mapRevisionLogToDecorationData } from "../decoration/map-revision-log-to-decoration-data";
+import { gutterImageGenerator } from "../util/gutter-image-generator";
+import { setDecorationForLines } from "../decoration/set-decoration-for-lines";
+import { setStatusBarText } from "../util/set-status-bar-text";
+import { EXTENSION_CONFIGURATION, EXTENSION_NAME } from "../const/extension";
+import { setBlamedFileDecorations } from "../storage/set-blamed-file-decorations";
+import { getFileNameFromEditor } from "../util/get-file-name-from-editor";
+import { getActiveTextEditor } from "../util/get-active-text-editor";
+import { mapDecorationOptions } from "../decoration/map-decoration-options";
 
-export const showBlame = async (
-  existingDecorations: vscode.TextEditorDecorationType[]
-): Promise<vscode.TextEditorDecorationType[]> => {
+export const showBlame = async (context: vscode.ExtensionContext) => {
   const { enableLogs, enableVisualIndicators } =
     vscode.workspace.getConfiguration(`${EXTENSION_CONFIGURATION}.blame`);
   const statusBarItem = vscode.window.createStatusBarItem(
@@ -19,23 +20,12 @@ export const showBlame = async (
   );
 
   try {
-    clearBlame(existingDecorations);
-
-    const editor = vscode.window.activeTextEditor;
-
-    if (!editor?.document.fileName || editor?.document.isUntitled) {
-      vscode.window.showInformationMessage(
-        "SVN Gutter: Cannot blame this file"
-      );
-
-      return [];
-    }
+    const editor = getActiveTextEditor();
+    const filePath = getFileNameFromEditor(editor);
 
     const generator = enableVisualIndicators
       ? await gutterImageGenerator()
       : undefined;
-
-    const filePath = editor?.document.fileName;
 
     statusBarItem.show();
     setStatusBarText(statusBarItem, "Blaming file...", "loading~spin");
@@ -68,13 +58,12 @@ export const showBlame = async (
       setDecorationForLines(editor, decorationData)
     );
 
-    statusBarItem.dispose();
+    setBlamedFileDecorations(context, filePath, decorations);
 
-    return decorations;
+    statusBarItem.dispose();
   } catch (err) {
     console.error("Failed to blame file", err);
     vscode.window.showErrorMessage(`${EXTENSION_NAME}: Something went wrong`);
     statusBarItem.dispose();
-    return [];
   }
 };
