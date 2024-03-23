@@ -7,7 +7,8 @@
 
 # SVN Gutter
 
-This is the Visual Studio Code version of the [Blamer](https://github.com/BeauAgst/Blamer) plugin, built for Sublime Text. [Pull requests are always welcome!](https://github.com/BeauAgst/blamer-vs/issues/)
+A Visual Studio Code extension to SVN blame files. 
+[Pull requests are always welcome!](/../../issues/)
 
 ## Commands:
 
