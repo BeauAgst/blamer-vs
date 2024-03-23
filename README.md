@@ -22,7 +22,7 @@ Currently, only a single keyboard shortcut is available.
 
 When run, this extension will place an icon next to each line of your file. Each differently-coloured icon means a different revision. Hovering a line will produce a tooltip, showing the committer, date, and message.For example, if you're working on a project and you want to see who modified a specific line:
 
-![Example Usage](example.mp4)
+![Example Usage](example.mov)
 
 ## Requirements
 
