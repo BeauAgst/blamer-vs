@@ -1,12 +1,10 @@
 import { spawnProcess } from "../util/spawn-process";
 import {
-  GroupedBlameDataByRevision,
+  BlameData,
   mapBlameOutputToBlameData,
 } from "./map-blame-output-to-blame-data";
 
-export const blameFile = async (
-  filePath: string
-): Promise<GroupedBlameDataByRevision> => {
+export const blameFile = async (filePath: string): Promise<BlameData[]> => {
   const data = await spawnProcess(
     `svn blame --xml -x "-w --ignore-eol-style" "${filePath}"`
   );

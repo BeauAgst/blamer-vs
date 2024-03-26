@@ -35,11 +35,11 @@ export const autoBlame = async (
       fileName
     );
 
-    if (existingDecorations.length) {
-      existingDecorations.map(({ decoration, decorationData }) =>
-        editor?.setDecorations(decoration, mapDecorationOptions(decorationData))
+    if (existingDecorations) {
+      console.log("File is already blamed, re-applying decorations...");
+      existingDecorations.lines.map(({ decoration, metadata }) =>
+        editor?.setDecorations(decoration, mapDecorationOptions(metadata))
       );
-      console.log("File is already blamed, skipping...");
       return;
     }
 

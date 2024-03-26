@@ -1,11 +1,17 @@
 import * as vscode from "vscode";
-import { DecorationData } from "../decoration/map-revision-log-to-decoration-data";
+import { DecorationData } from "../decoration/map-blame-to-decoration-data";
+import { UniqueLog } from "../svn/get-unique-logs";
+
+export type FileData = {
+  lines: {
+    decoration: vscode.TextEditorDecorationType;
+    metadata: DecorationData;
+  }[];
+  logs: UniqueLog[];
+};
 
 export const setBlamedFileDecorations = async (
   context: vscode.ExtensionContext,
   storageKey: string,
-  decorations?: {
-    decorationData: DecorationData;
-    decoration: vscode.TextEditorDecorationType;
-  }[]
-) => context.workspaceState.update(storageKey, decorations);
+  fileData?: FileData
+) => context.workspaceState.update(storageKey, fileData);

@@ -1,26 +1,13 @@
 import { ElementCompact, xml2js } from "xml-js";
 
-type BlameData = {
+export type BlameData = {
   author?: string;
   date?: string;
   line: string;
-  revision?: string;
+  revision: string;
 };
 
-export type GroupedBlameData = {
-  author?: string;
-  date?: string;
-  lines: string[];
-  revision?: string;
-};
-
-export type GroupedBlameDataByRevision = {
-  [key: string]: GroupedBlameData;
-};
-
-export const mapBlameOutputToBlameData = (
-  data: string
-): GroupedBlameDataByRevision => {
+export const mapBlameOutputToBlameData = (data: string): BlameData[] => {
   const json: ElementCompact = xml2js(data, {
     attributesKey: "attributes",
     compact: true,
@@ -28,39 +15,12 @@ export const mapBlameOutputToBlameData = (
     trim: true,
   });
 
-  const blameEntries = json?.blame?.target.entry;
-
-  const mappedData: BlameData[] = blameEntries?.map((entry: any) => ({
+  const blamed: BlameData[] = json?.blame?.target.entry?.map((entry: any) => ({
     author: entry?.commit?.author?.text,
     date: entry?.commit?.date?.text,
     line: entry?.attributes?.["line-number"],
     revision: entry?.commit?.attributes?.revision,
   }));
 
-  return mappedData.reduce<GroupedBlameDataByRevision>(
-    (groupedBlames, entry: BlameData) => {
-      const { author, date, line, revision } = entry;
-
-      if (revision && revision !== "-") {
-        const existingRevisionData = groupedBlames[revision];
-
-        if (existingRevisionData) {
-          groupedBlames[revision] = {
-            ...existingRevisionData,
-            lines: [...existingRevisionData.lines, line],
-          };
-        } else {
-          groupedBlames[revision] = {
-            author,
-            date,
-            lines: [line],
-            revision,
-          };
-        }
-      }
-
-      return groupedBlames;
-    },
-    {}
-  );
+  return blamed.filter(({ revision }) => revision);
 };

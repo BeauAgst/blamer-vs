@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
-import { GroupedBlameData } from "../svn/map-blame-output-to-blame-data";
+import { BlameData } from "../svn/map-blame-output-to-blame-data";
 
 export const formatHoverMessage = (
-  blameData: GroupedBlameData,
+  blameData: BlameData,
   revisionLog?: string
 ) => {
   const { author, date, revision } = blameData;

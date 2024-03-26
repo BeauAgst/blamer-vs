@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
-import { GroupedBlameData } from "../svn/map-blame-output-to-blame-data";
+import { BlameData } from "../svn/map-blame-output-to-blame-data";
 
-export const formatLineMessage = (blameData: GroupedBlameData): string => {
+export const formatLineMessage = (blameData: BlameData): string => {
   const { author, date } = blameData;
 
   const timeRelative =
