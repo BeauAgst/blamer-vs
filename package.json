@@ -43,8 +43,13 @@
       "title": "SVN Gutter",
       "type": "object",
       "properties": {
-        "svnGutter.blame.enableLogs": {
+        "svnGutter.blame.autoBlame": {
           "default": true,
+          "description": "Automatically blames files as you open them.",
+          "type": "boolean"
+        },
+        "svnGutter.blame.enableLogs": {
+          "default": false,
           "description": "Enables popup revision log data. Disabling this setting will significantly speed up blame.",
           "type": "boolean"
         },

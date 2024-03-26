@@ -7,59 +7,50 @@
 
 # SVN Gutter
 
-A Visual Studio Code extension to SVN blame files. [Pull requests are always welcome!](/../../issues/)
-
-## Commands:
-
-This extension contributes the following commands to the Command palette.
-
-`SVN Gutter - Clear blame`: Clears blame for the active file
-
-`SVN Gutter - Show blame`: Adds indicators in the gutter, and a tooltip per line containing revision log data
-
-`SVN Gutter - Toggle blame`: Toggles between "Clear" and "Show" states
-
-## Shortcuts:
-
-**SVN Gutter: Show blame**
-`CTRL + ALT + D` (Windows)
-`CTRL + CMD + X` (Mac)
-
-**SVN Gutter: Toggle blame**
-`CTRL + ALT + D` (Windows)
-`CTRL + CMD + X` (Mac)
-
-## Features
-
-When run, this extension will place an icon next to each line of your file. Each differently-coloured icon means a different revision. Hovering a line will produce a tooltip, showing the committer, date, and message. For example, if you're working on a project and you want to see who modified a specific line:
+A Visual Studio Code extension to SVN blame files.
+When run, this extension will place an icon next to each line of your file. Each differently-coloured icon means a different revision. Hovering a line will display a tooltip, showing the committer, date, and message. Blame data will also display inline.
 
 https://github.com/BeauAgst/blamer-vs/assets/10343831/bcdcd279-06b9-42cf-a162-a8740d29c88d
 
 ## Requirements
 
-This extension requires that you're either:
+**Note**: This extension leverages your machine's SVN installation, so you need to install [SVN](https://subversion.apache.org/) first.
 
-- On a Windows machine with Tortoise SVN installed, with command-line tools.
-- A Unix machine.
+### Windows users
 
-## Extension Settings
+If you use TortoiseSVN, make sure the option Command Line Tools is checked during installation, and C:\Program Files\TortoiseSVN\bin is available in PATH.
 
-**Enable Details** - By default, hovering over a line will display the log message for its revision. This can be turned off, which will significantly speed up the blame action.
+## Commands
 
-**Enable Visual Indicator** - By default, the extension displays a coloured indicator next to each line number. This can be turned off, whilst still showing the blame log in the tooltip.
+This extension contributes the following commands to the Command palette.
+
+| Command                       | Description                                                            | Shortcut                                               |
+| ----------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
+| **SVN Gutter - Show blame**   | Blames file, and retrieves log data (if setting is enabled)            | `CTRL + ALT + D` (Windows) <br/>`CTRL + CMD + X` (Mac) |
+| **SVN Gutter - Clear blame**  | Clears the applied blame for the active file                           |                                                        |
+| **SVN Gutter - Toggle blame** | Will toggle between fetching blame data and clearing visual indicators | `CTRL + ALT + E` (Windows) <br/>`CTRL + CMD + Y` (Mac) |
+
+## Configuration
+
+| Setting                      | Description                                                                                | Default value |
+| ---------------------------- | ------------------------------------------------------------------------------------------ | ------------- |
+| **Auto Blame**               | Automatically blames files as you open them.                                               | `true`        |
+| **Enable Details**           | Enables popup revision log data. Disabling this setting will significantly speed up blame. | `false`       |
+| **Enable Visual Indicators** | Toggle visual indicators that sit to the left of the line number.                          | `true`        |
 
 ## Known Issues
 
-- A little bit slow, because all unique logs have to be retrieved first. ([#3](/../../issues/3))
+- Causes slowdown when the "**Enable Details**" setting is enabled because all unique logs have to be retrieved first. ([#3](/../../issues/3))
 - Authentication errors [#5](/../../issues/5), [#9](/../../issues/9)
+
+## Feedback & Contributing
+
+Please report any bugs, suggestions or documentation requests via [issues](/../../issues)
+Feel free to submit [pull requests](/../../pulls)
 
 ## TODO
 
-- Configurable SVN path
 - In-line blame messages, a-la git lens
-- Add an optional sidebar button to toggle blame on active file
-- Add an option to auto-blame on file open
-  - svn info ${FILEPATH} to check if blame-able
 - Automate release flow
   - Tests pass
   - https://github.com/marketplace/actions/gh-release

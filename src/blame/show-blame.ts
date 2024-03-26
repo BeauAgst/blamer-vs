@@ -9,9 +9,12 @@ import { EXTENSION_CONFIGURATION, EXTENSION_NAME } from "../const/extension";
 import { setBlamedFileDecorations } from "../storage/set-blamed-file-decorations";
 import { getFileNameFromEditor } from "../util/get-file-name-from-editor";
 import { getActiveTextEditor } from "../util/get-active-text-editor";
-import { mapDecorationOptions } from "../decoration/map-decoration-options";
 
-export const showBlame = async (context: vscode.ExtensionContext) => {
+export const showBlame = async (
+  context: vscode.ExtensionContext,
+  existingEditor?: vscode.TextEditor,
+  existingFilePath?: string
+) => {
   const { enableLogs, enableVisualIndicators } =
     vscode.workspace.getConfiguration(`${EXTENSION_CONFIGURATION}.blame`);
   const statusBarItem = vscode.window.createStatusBarItem(
@@ -20,8 +23,8 @@ export const showBlame = async (context: vscode.ExtensionContext) => {
   );
 
   try {
-    const editor = getActiveTextEditor();
-    const filePath = getFileNameFromEditor(editor);
+    const editor = existingEditor || getActiveTextEditor();
+    const filePath = existingFilePath || getFileNameFromEditor(editor);
 
     const generator = enableVisualIndicators
       ? await gutterImageGenerator()
@@ -54,13 +57,14 @@ export const showBlame = async (context: vscode.ExtensionContext) => {
       )
     );
 
-    const decorations = logs.map((decorationData) =>
-      setDecorationForLines(editor, decorationData)
-    );
-
-    setBlamedFileDecorations(context, filePath, decorations);
+    const decorations = logs.map((decorationData) => ({
+      decorationData,
+      decoration: setDecorationForLines(editor, decorationData, "blame"),
+    }));
 
     statusBarItem.dispose();
+
+    await setBlamedFileDecorations(context, filePath, decorations);
   } catch (err) {
     console.error("Failed to blame file", err);
     vscode.window.showErrorMessage(`${EXTENSION_NAME}: Something went wrong`);

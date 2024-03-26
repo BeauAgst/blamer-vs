@@ -10,7 +10,7 @@ export const clearBlame = async (context: vscode.ExtensionContext) => {
 
   const decorations = await getBlamedFileDecorations(context, filePath);
 
-  decorations.map((decoration) => decoration?.dispose?.());
+  decorations.map(({ decoration }) => decoration?.dispose?.());
 
-  await setBlamedFileDecorations(context, filePath, undefined);
+  await setBlamedFileDecorations(context, filePath);
 };
