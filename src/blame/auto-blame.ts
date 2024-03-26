@@ -6,7 +6,7 @@ import { showBlame } from "./show-blame";
 
 export const autoBlame = async (
   context: vscode.ExtensionContext,
-  editor: vscode.TextEditor
+  editor?: vscode.TextEditor
 ) => {
   try {
     const { autoBlame } = vscode.workspace.getConfiguration(

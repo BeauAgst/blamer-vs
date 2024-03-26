@@ -6,6 +6,7 @@ import { setBlamedFileDecorations } from "./storage/set-blamed-file-decorations"
 import { clearBlamedFileDecorations } from "./storage/clear-blamed-file-decorations";
 import { debounce } from "./util/debounce";
 import { autoBlame } from "./blame/auto-blame";
+import { displayInlineBlame } from "./decoration/display-inline-blame";
 
 export async function activate(context: vscode.ExtensionContext) {
   await clearBlamedFileDecorations(context);
@@ -23,17 +24,22 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   let onDidChangeActiveTextEditor = vscode.window.onDidChangeActiveTextEditor(
-    (e) => autoBlame(context, e)
+    (editor) => autoBlame(context, editor)
+  );
+
+  let onDidCloseTextDocument = vscode.workspace.onDidCloseTextDocument(
+    ({ fileName }) => setBlamedFileDecorations(context, fileName)
+  );
+
+  vscode.window.onDidChangeTextEditorSelection(
+    debounce(({ textEditor }) => displayInlineBlame(context, textEditor))
   );
 
   context.subscriptions.push(clear);
   context.subscriptions.push(show);
   context.subscriptions.push(toggle);
+  context.subscriptions.push(onDidCloseTextDocument);
   context.subscriptions.push(onDidChangeActiveTextEditor);
-
-  vscode.workspace.onDidCloseTextDocument(({ fileName }) =>
-    setBlamedFileDecorations(context, fileName)
-  );
 }
 
 export function deactivate() {}
