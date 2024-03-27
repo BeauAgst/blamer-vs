@@ -5,7 +5,7 @@
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/beaugust.blamer-vs?style=for-the-badge)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/beaugust.blamer-vs?style=for-the-badge)
 
-# SVN Gutter
+# SVN Blamer
 
 A Visual Studio Code extension to SVN blame files.
 When run, this extension will place an icon next to each line of your file. Each differently-coloured icon means a different revision. Hovering a line will display a tooltip, showing the committer, date, and message. Blame data will also display inline.
@@ -26,9 +26,9 @@ This extension contributes the following commands to the Command palette.
 
 | Command                       | Description                                                            | Shortcut                                               |
 | ----------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
-| **SVN Gutter - Show blame**   | Blames file, and retrieves log data (if setting is enabled)            | `CTRL + ALT + D` (Windows) <br/>`CTRL + CMD + X` (Mac) |
-| **SVN Gutter - Clear blame**  | Clears the applied blame for the active file                           |                                                        |
-| **SVN Gutter - Toggle blame** | Will toggle between fetching blame data and clearing visual indicators | `CTRL + ALT + E` (Windows) <br/>`CTRL + CMD + Y` (Mac) |
+| **SVN Blamer - Show blame**   | Blames file, and retrieves log data (if setting is enabled)            | `CTRL + ALT + D` (Windows) <br/>`CTRL + CMD + X` (Mac) |
+| **SVN Blamer - Clear blame**  | Clears the applied blame for the active file                           |                                                        |
+| **SVN Blamer - Toggle blame** | Will toggle between fetching blame data and clearing visual indicators | `CTRL + ALT + E` (Windows) <br/>`CTRL + CMD + Y` (Mac) |
 
 ## Configuration
 

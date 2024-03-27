@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
-import { EXTENSION_CONFIGURATION } from "../const/extension";
-import { DecorationData } from "./map-blame-to-decoration-data";
+import { EXTENSION_CONFIGURATION } from "../../const/extension";
+import { DecorationData } from "../../types/decoration-data.model";
 
 export const mapDecorationOptions = (decorationData: DecorationData) => {
   const { enableLogs } = vscode.workspace.getConfiguration(
-    `${EXTENSION_CONFIGURATION}.blame`
+    EXTENSION_CONFIGURATION
   );
 
   const lineNumber = Number(decorationData.line) - 1;

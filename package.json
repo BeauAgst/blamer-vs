@@ -1,6 +1,6 @@
 {
   "name": "blamer-vs",
-  "displayName": "SVN Gutter",
+  "displayName": "SVN Blamer",
   "description": "Visually blame SVN-stored code line-by-line",
   "version": "0.6.0",
   "publisher": "beaugust",
@@ -28,32 +28,32 @@
     "commands": [
       {
         "command": "blamer-vs.clearBlame",
-        "title": "SVN Gutter: Clear blame"
+        "title": "SVN Blamer: Clear blame"
       },
       {
         "command": "blamer-vs.showBlame",
-        "title": "SVN Gutter: Show blame"
+        "title": "SVN Blamer: Show blame"
       },
       {
         "command": "blamer-vs.toggleBlame",
-        "title": "SVN Gutter: Toggle blame"
+        "title": "SVN Blamer: Toggle blame"
       }
     ],
     "configuration": {
-      "title": "SVN Gutter",
+      "title": "SVN Blamer",
       "type": "object",
       "properties": {
-        "svnGutter.blame.autoBlame": {
+        "svnBlamer.autoBlame": {
           "default": true,
           "description": "Automatically blames files as you open them.",
           "type": "boolean"
         },
-        "svnGutter.blame.enableLogs": {
+        "svnBlamer.enableLogs": {
           "default": false,
           "description": "Enables popup revision log data. Disabling this setting will significantly speed up blame.",
           "type": "boolean"
         },
-        "svnGutter.blame.enableVisualIndicators": {
+        "svnBlamer.enableVisualIndicators": {
           "default": true,
           "description": "Enable/Disable visual indicators that sit to the left of the line number.",
           "type": "boolean"

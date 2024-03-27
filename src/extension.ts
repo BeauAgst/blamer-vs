@@ -1,45 +1,50 @@
 import * as vscode from "vscode";
-import { showBlame } from "./blame/show-blame";
-import { clearBlame } from "./blame/clear-blame";
-import { toggleBlame } from "./blame/toggle-blame";
-import { setBlamedFileDecorations } from "./storage/set-blamed-file-decorations";
-import { clearBlamedFileDecorations } from "./storage/clear-blamed-file-decorations";
 import { debounce } from "./util/debounce";
-import { autoBlame } from "./blame/auto-blame";
-import { displayInlineBlame } from "./decoration/display-inline-blame";
+import { Storage } from "./storage";
+import { SVN } from "./svn/svn";
+import { Blamer } from "./blamer";
+import { StatusBarItem } from "./status-bar-item";
+import { DecorationManager } from "./decoration/decoration-manager";
 
 export async function activate(context: vscode.ExtensionContext) {
-  await clearBlamedFileDecorations(context);
+  const statusBarItem = new StatusBarItem();
+  const decorationManager = new DecorationManager();
+  const storage = new Storage(context);
+  const svn = new SVN(statusBarItem);
+  const blamer = new Blamer(storage, svn, statusBarItem, decorationManager);
+
+  await blamer.clearRecordsForAllFiles();
 
   let clear = vscode.commands.registerCommand("blamer-vs.clearBlame", () =>
-    clearBlame(context)
+    blamer.clearBlameForActiveTextEditor()
   );
 
   let show = vscode.commands.registerCommand("blamer-vs.showBlame", () =>
-    showBlame(context)
+    blamer.showBlameForActiveTextEditor()
   );
 
   let toggle = vscode.commands.registerCommand("blamer-vs.toggleBlame", () =>
-    toggleBlame(context)
+    blamer.toggleBlameForActiveTextEditor()
   );
 
-  let onDidChangeActiveTextEditor = vscode.window.onDidChangeActiveTextEditor(
-    (editor) => autoBlame(context, editor)
+  let autoBlame = vscode.window.onDidChangeActiveTextEditor((textEditor) =>
+    blamer.autoBlame(textEditor)
   );
 
-  let onDidCloseTextDocument = vscode.workspace.onDidCloseTextDocument(
-    ({ fileName }) => setBlamedFileDecorations(context, fileName)
+  let clearOnClose = vscode.workspace.onDidCloseTextDocument(({ fileName }) =>
+    blamer.clearRecordsForFile(fileName)
   );
 
-  vscode.window.onDidChangeTextEditorSelection(
-    debounce(({ textEditor }) => displayInlineBlame(context, textEditor))
+  let trackLine = vscode.window.onDidChangeTextEditorSelection(
+    debounce((event) => blamer.trackLine(event))
   );
 
   context.subscriptions.push(clear);
   context.subscriptions.push(show);
   context.subscriptions.push(toggle);
-  context.subscriptions.push(onDidCloseTextDocument);
-  context.subscriptions.push(onDidChangeActiveTextEditor);
+  context.subscriptions.push(trackLine);
+  context.subscriptions.push(clearOnClose);
+  context.subscriptions.push(autoBlame);
 }
 
 export function deactivate() {}

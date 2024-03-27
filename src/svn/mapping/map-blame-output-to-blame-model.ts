@@ -1,13 +1,7 @@
 import { ElementCompact, xml2js } from "xml-js";
+import { Blame } from "../../types/blame.model";
 
-export type BlameData = {
-  author?: string;
-  date?: string;
-  line: string;
-  revision: string;
-};
-
-export const mapBlameOutputToBlameData = (data: string): BlameData[] => {
+export const mapBlameOutputToBlameModel = (data: string): Blame[] => {
   const json: ElementCompact = xml2js(data, {
     attributesKey: "attributes",
     compact: true,
@@ -15,7 +9,7 @@ export const mapBlameOutputToBlameData = (data: string): BlameData[] => {
     trim: true,
   });
 
-  const blamed: BlameData[] = json?.blame?.target.entry?.map((entry: any) => ({
+  const blamed: Blame[] = json?.blame?.target.entry?.map((entry: any) => ({
     author: entry?.commit?.author?.text,
     date: entry?.commit?.date?.text,
     line: entry?.attributes?.["line-number"],
