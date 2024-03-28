@@ -7,6 +7,7 @@ import { LogOutputChannel } from "vscode";
 
 export class SVN {
   constructor(private logger: LogOutputChannel) {}
+
   async blameFile(fileName: string): Promise<Blame[]> {
     this.logger.debug("Running blame child process");
     try {
@@ -17,13 +18,13 @@ export class SVN {
       this.logger.debug("Blame child process successful");
 
       return mapBlameOutputToBlameModel(data);
-    } catch (err) {
+    } catch (err: any) {
       if (typeof err === "string" && err.includes("E155007")) {
         this.logger.warn("File is not a working copy, cannot complete action");
-        return [];
+        throw new Error("File is not a working copy");
       }
 
-      this.logger.error("Failed to blame file", { err });
+      this.logger.error("Failed to blame file", { err: err?.message });
       throw err;
     }
   }

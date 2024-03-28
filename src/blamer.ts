@@ -57,9 +57,9 @@ export class Blamer {
     return this.storage.set<DecorationRecord>(fileName, record);
   }
 
-  getActiveTextEditorAndFileName() {
+  async getActiveTextEditorAndFileName() {
     const textEditor = window.activeTextEditor;
-    const fileName = getFileNameFromTextEditor(textEditor);
+    const fileName = await getFileNameFromTextEditor(textEditor);
 
     return { fileName, textEditor };
   }
@@ -83,7 +83,7 @@ export class Blamer {
       return;
     }
 
-    this.logger.debug("Clearing existing blame", { fileName });
+    this.logger.info("Clearing blame for file", { fileName });
 
     Object.values(records)?.map(({ decoration }) => decoration?.dispose?.());
 
@@ -91,7 +91,7 @@ export class Blamer {
   }
 
   async clearBlameForActiveTextEditor() {
-    const { fileName } = this.getActiveTextEditorAndFileName();
+    const { fileName } = await this.getActiveTextEditorAndFileName();
 
     return this.clearBlameForFile(fileName);
   }
@@ -155,16 +155,16 @@ export class Blamer {
       await this.setRecordsForFile(fileName, decorationRecords);
 
       this.logger.info("Blame successful", { fileName });
-    } catch (err) {
-      console.log(err);
-      this.logger.error("Failed to blame file", { err });
+    } catch (err: any) {
+      this.logger.error("Blame action failed", { err: err?.message });
       window.showErrorMessage(`${EXTENSION_NAME}: Something went wrong`);
       this.statusBarItem.hide();
     }
   }
 
   async showBlameForActiveTextEditor() {
-    const { fileName, textEditor } = this.getActiveTextEditorAndFileName();
+    const { fileName, textEditor } =
+      await this.getActiveTextEditorAndFileName();
     return this.showBlameForFile(textEditor, fileName);
   }
 
@@ -176,7 +176,8 @@ export class Blamer {
   }
 
   async toggleBlameForActiveTextEditor() {
-    const { fileName, textEditor } = this.getActiveTextEditorAndFileName();
+    const { fileName, textEditor } =
+      await this.getActiveTextEditorAndFileName();
     return this.toggleBlameForFile(textEditor, fileName);
   }
 
@@ -186,7 +187,7 @@ export class Blamer {
         return;
       }
 
-      const fileName = getFileNameFromTextEditor(textEditor);
+      const fileName = await getFileNameFromTextEditor(textEditor);
       const existingRecord = await this.getRecordsForFile(fileName);
 
       if (existingRecord) {
@@ -201,8 +202,8 @@ export class Blamer {
       }
 
       return this.showBlameForFile(textEditor, fileName);
-    } catch (err) {
-      this.logger.error("Failed to auto-blame file", { err });
+    } catch (err: any) {
+      this.logger.error("Failed to auto-blame file", { err: err?.message });
       window.showErrorMessage(`${EXTENSION_NAME}: Something went wrong`);
       this.statusBarItem.hide();
     }
@@ -210,12 +211,13 @@ export class Blamer {
 
   async trackLine(selectionChangeEvent: TextEditorSelectionChangeEvent) {
     const { textEditor } = selectionChangeEvent;
+    const fileName = await getFileNameFromTextEditor(textEditor);
 
-    if (!textEditor) {
+    if (!textEditor || !fileName) {
+      this.logger.debug("No file found to track line");
       return;
     }
 
-    const fileName = getFileNameFromTextEditor(textEditor);
     const line = (textEditor.selection.active.line + 1).toString();
 
     this.activeLineDecoration?.dispose();
