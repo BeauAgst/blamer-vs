@@ -50,7 +50,6 @@ Feel free to submit [pull requests](/../../pulls)
 
 ## TODO
 
-- In-line blame messages, a-la git lens
 - Automate release flow
   - Tests pass
   - https://github.com/marketplace/actions/gh-release

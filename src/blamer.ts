@@ -134,7 +134,6 @@ export class Blamer {
       );
 
       if (!autoBlame) {
-        console.debug("Auto-blame configuration is disabled, skipping...");
         return;
       }
 
@@ -163,7 +162,6 @@ export class Blamer {
 
   async restorePreviousDecoration() {
     if (!this.activeTextEditor || !this.activefileName || !this.activeLine) {
-      console.debug("no previous line to restore");
       return;
     }
 
@@ -171,18 +169,15 @@ export class Blamer {
     const existingDecoration = records?.[this.activeLine];
 
     if (!existingDecoration) {
-      console.debug("No decoration found for previous line");
       return;
     }
 
-    console.debug("Setting previous decoration on line", this.activeLine);
     const decoration = this.decorationManager.createAndSetLineDecoration(
       this.activeTextEditor,
       existingDecoration.metadata,
       "blame"
     );
 
-    console.debug("Storing decoration for previous line");
     this.setRecordsForFile(this.activefileName, {
       ...records,
       [this.activeLine]: { decoration, metadata: existingDecoration.metadata },
@@ -202,13 +197,10 @@ export class Blamer {
     const existingDecoration = records?.[line];
 
     if (!existingDecoration) {
-      console.debug("No blame on current line, skipping...");
       return;
     }
 
-    console.debug("Clearing decoration on line", line);
     existingDecoration.decoration.dispose();
-    console.debug("Setting new decoration on line", line);
     this.activeDecoration = this.decorationManager.createAndSetLineDecoration(
       textEditor,
       existingDecoration.metadata,

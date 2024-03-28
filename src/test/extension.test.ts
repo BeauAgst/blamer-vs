@@ -1,15 +1,37 @@
-import * as assert from 'assert';
+import * as assert from "assert";
+import * as vscode from "vscode";
+import { EXTENSION_ID } from "../const/extension";
 
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-import * as vscode from 'vscode';
 // import * as myExtension from '../../extension';
 
-suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+suite("Extension Test Suite", () => {
+  vscode.window.showInformationMessage("Start all tests.");
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
-	});
+  test("should be present", () => {
+    assert.ok(vscode.extensions.getExtension(EXTENSION_ID));
+  });
+
+  test("should be able to activate the extension", function (done) {
+    this.timeout(60 * 1000);
+    const extension = vscode.extensions.getExtension(
+      EXTENSION_ID
+    ) as vscode.Extension<any>;
+
+    if (!extension) {
+      assert.fail("Extension not found");
+    }
+
+    if (!extension.isActive) {
+      extension.activate().then(
+        (_api) => {
+          done();
+        },
+        () => {
+          assert.fail("Failed to activate extension");
+        }
+      );
+    } else {
+      done();
+    }
+  });
 });
