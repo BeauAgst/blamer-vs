@@ -1,5 +1,5 @@
-import { Blame } from "../../types/blame.model";
-import { DecorationData } from "../../types/decoration-data.model";
+import { Blame } from "../types/blame.model";
+import { DecorationData } from "../types/decoration-data.model";
 import { mapBlameToHoverMessage } from "./map-blame-to-hover-message";
 import { mapBlameToInlineMessage } from "./map-blame-to-inline-message";
 

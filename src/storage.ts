@@ -1,7 +1,7 @@
-import * as vscode from "vscode";
+import { ExtensionContext } from "vscode";
 
 export class Storage {
-  constructor(private context: vscode.ExtensionContext) {}
+  constructor(private context: ExtensionContext) {}
 
   async get<T>(key: string) {
     return this.context.workspaceState.get<T>(key);

@@ -1,23 +1,23 @@
-import * as vscode from "vscode";
 import { mapBlameToDecorationData } from "./mapping/map-blame-to-decoration-data";
-import { EXTENSION_CONFIGURATION } from "../const/extension";
+import { EXTENSION_CONFIGURATION } from "./const/extension";
 import { mapDecorationOptions } from "./mapping/map-decoration-options";
-import { gutterImageGenerator } from "../util/gutter-image-generator";
-import { GutterImagePathHashMap } from "../types/gutter-image-path-hash-map.model";
-import { Blame } from "../types/blame.model";
-import { Log } from "../types/log.model";
-import { DecorationRecord } from "../types/decoration-record.model";
-import { DecorationData } from "../types/decoration-data.model";
+import { gutterImageGenerator } from "./util/gutter-image-generator";
+import { GutterImagePathHashMap } from "./types/gutter-image-path-hash-map.model";
+import { Blame } from "./types/blame.model";
+import { Log } from "./types/log.model";
+import { DecorationRecord } from "./types/decoration-record.model";
+import { DecorationData } from "./types/decoration-data.model";
+import { TextEditor, window, workspace } from "vscode";
 
 export class DecorationManager {
   constructor() {}
 
   createAndSetLineDecoration(
-    textEditor: vscode.TextEditor,
+    textEditor: TextEditor,
     decorationData: DecorationData,
     action: "blame" | "active_line"
   ) {
-    const decoration = vscode.window.createTextEditorDecorationType({
+    const decoration = window.createTextEditorDecorationType({
       after:
         action === "active_line"
           ? {
@@ -40,7 +40,7 @@ export class DecorationManager {
   }
 
   async createGutterImagePathHashMap(revisions: string[]) {
-    const { enableVisualIndicators } = vscode.workspace.getConfiguration(
+    const { enableVisualIndicators } = workspace.getConfiguration(
       EXTENSION_CONFIGURATION
     );
 
@@ -68,7 +68,7 @@ export class DecorationManager {
   }
 
   async createAndSetDecorationsForBlame(
-    textEditor: vscode.TextEditor,
+    textEditor: TextEditor,
     blames: Blame[],
     revisions: string[],
     logs: Log[]
@@ -99,7 +99,7 @@ export class DecorationManager {
     }, {});
   }
 
-  reApplyDecorations(textEditor: vscode.TextEditor, records: DecorationRecord) {
+  reApplyDecorations(textEditor: TextEditor, records: DecorationRecord) {
     return Object.values(records).map(({ decoration, metadata }) => {
       textEditor?.setDecorations(decoration, mapDecorationOptions(metadata));
     });

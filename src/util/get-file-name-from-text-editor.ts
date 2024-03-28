@@ -1,6 +1,6 @@
-import * as vscode from "vscode";
+import { TextEditor } from "vscode";
 
-export const getFileNameFromTextEditor = (textEditor?: vscode.TextEditor) => {
+export const getFileNameFromTextEditor = (textEditor?: TextEditor) => {
   const { fileName, isUntitled } = textEditor?.document || {};
 
   if (!fileName || isUntitled) {

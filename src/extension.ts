@@ -1,41 +1,46 @@
-import * as vscode from "vscode";
+import { ExtensionContext, commands, window, workspace } from "vscode";
 import { debounce } from "./util/debounce";
 import { Storage } from "./storage";
-import { SVN } from "./svn/svn";
+import { SVN } from "./svn";
 import { Blamer } from "./blamer";
-import { StatusBarItem } from "./status-bar-item";
-import { DecorationManager } from "./decoration/decoration-manager";
+import { DecorationManager } from "./decoration-manager";
+import { EXTENSION_NAME } from "./const/extension";
 
-export async function activate(context: vscode.ExtensionContext) {
-  const statusBarItem = new StatusBarItem();
+export async function activate(context: ExtensionContext) {
+  const logger = window.createOutputChannel(EXTENSION_NAME, {
+    log: true,
+  });
   const decorationManager = new DecorationManager();
   const storage = new Storage(context);
-  const svn = new SVN(statusBarItem);
-  const blamer = new Blamer(storage, svn, statusBarItem, decorationManager);
+  const svn = new SVN(logger);
+  const blamer = new Blamer(logger, storage, svn, decorationManager);
 
+  logger.clear();
   await blamer.clearRecordsForAllFiles();
 
-  let clear = vscode.commands.registerCommand("blamer-vs.clearBlame", () =>
+  logger.info("Blamer initialised");
+
+  let clear = commands.registerCommand("blamer-vs.clearBlame", () =>
     blamer.clearBlameForActiveTextEditor()
   );
 
-  let show = vscode.commands.registerCommand("blamer-vs.showBlame", () =>
+  let show = commands.registerCommand("blamer-vs.showBlame", () =>
     blamer.showBlameForActiveTextEditor()
   );
 
-  let toggle = vscode.commands.registerCommand("blamer-vs.toggleBlame", () =>
+  let toggle = commands.registerCommand("blamer-vs.toggleBlame", () =>
     blamer.toggleBlameForActiveTextEditor()
   );
 
-  let autoBlame = vscode.window.onDidChangeActiveTextEditor((textEditor) =>
+  let autoBlame = window.onDidChangeActiveTextEditor((textEditor) =>
     blamer.autoBlame(textEditor)
   );
 
-  let clearOnClose = vscode.workspace.onDidCloseTextDocument(({ fileName }) =>
-    blamer.clearRecordsForFile(fileName)
+  let clearOnClose = workspace.onDidCloseTextDocument((textDocument) =>
+    blamer.handleClosedDocument(textDocument)
   );
 
-  let trackLine = vscode.window.onDidChangeTextEditorSelection(
+  let trackLine = window.onDidChangeTextEditorSelection(
     debounce((event) => blamer.trackLine(event))
   );
 

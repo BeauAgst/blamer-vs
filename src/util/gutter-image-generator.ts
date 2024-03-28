@@ -1,7 +1,7 @@
 import { readdir } from "node:fs/promises";
-import * as vscode from "vscode";
 import { EXTENSION_ID } from "../const/extension";
 import path from "path";
+import { extensions } from "vscode";
 
 export function* generator(imagePaths: string[], extensionPath: string) {
   while (imagePaths.length) {
@@ -16,8 +16,7 @@ export function* generator(imagePaths: string[], extensionPath: string) {
 }
 
 export const gutterImageGenerator = async () => {
-  const extensionPath =
-    vscode.extensions.getExtension(EXTENSION_ID)?.extensionPath;
+  const extensionPath = extensions.getExtension(EXTENSION_ID)?.extensionPath;
 
   if (!extensionPath) {
     throw new Error("Unable to find extension path");

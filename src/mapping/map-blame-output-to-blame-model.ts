@@ -1,5 +1,5 @@
 import { ElementCompact, xml2js } from "xml-js";
-import { Blame } from "../../types/blame.model";
+import { Blame } from "../types/blame.model";
 
 export const mapBlameOutputToBlameModel = (data: string): Blame[] => {
   const json: ElementCompact = xml2js(data, {

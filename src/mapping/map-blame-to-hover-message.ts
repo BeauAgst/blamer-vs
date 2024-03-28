@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { Blame } from "../../types/blame.model";
+import { Blame } from "../types/blame.model";
 
 export const mapBlameToHoverMessage = (blame: Blame, log?: string) => {
   const { author, date, revision } = blame;
