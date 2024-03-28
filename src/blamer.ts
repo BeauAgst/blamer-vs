@@ -11,7 +11,6 @@ import {
 } from "vscode";
 import { Storage } from "./storage";
 import { SVN } from "./svn";
-import { getActiveTextEditor } from "./util/get-active-text-editor";
 import { getFileNameFromTextEditor } from "./util/get-file-name-from-text-editor";
 import { EXTENSION_CONFIGURATION, EXTENSION_NAME } from "./const/extension";
 import { DecorationManager } from "./decoration-manager";
@@ -46,7 +45,10 @@ export class Blamer {
     return this.storage.clear();
   }
 
-  async getRecordsForFile(fileName: string) {
+  async getRecordsForFile(fileName?: string) {
+    if (!fileName) {
+      return undefined;
+    }
     const result = await this.storage.get<DecorationRecord>(fileName);
     return result;
   }
@@ -56,7 +58,7 @@ export class Blamer {
   }
 
   getActiveTextEditorAndFileName() {
-    const textEditor = getActiveTextEditor();
+    const textEditor = window.activeTextEditor;
     const fileName = getFileNameFromTextEditor(textEditor);
 
     return { fileName, textEditor };
@@ -68,7 +70,12 @@ export class Blamer {
     return this.clearRecordsForFile(fileName);
   }
 
-  async clearBlameForFile(fileName: string) {
+  async clearBlameForFile(fileName?: string) {
+    if (!fileName) {
+      this.logger.debug("No file found, aborting...");
+      return;
+    }
+
     const records = await this.getRecordsForFile(fileName);
     this.activeLineDecoration?.dispose();
 
@@ -110,8 +117,14 @@ export class Blamer {
     return result;
   }
 
-  async showBlameForFile(textEditor: TextEditor, fileName: string) {
+  async showBlameForFile(textEditor?: TextEditor, fileName?: string) {
+    if (!textEditor || !fileName) {
+      this.logger.debug("No editor or file found, aborting...");
+      return;
+    }
+
     this.logger.info("Blaming file", { fileName });
+
     try {
       this.statusBarItem.show();
       this.setStatusBarText("Blaming file...", "loading~spin");
@@ -119,6 +132,10 @@ export class Blamer {
       await this.clearBlameForFile(fileName);
 
       const blame = await this.svn.blameFile(fileName);
+
+      if (!blame.length) {
+        return;
+      }
 
       const uniqueRevisions = [
         ...new Set(blame.map(({ revision }) => revision)),
@@ -136,7 +153,10 @@ export class Blamer {
 
       this.statusBarItem.hide();
       await this.setRecordsForFile(fileName, decorationRecords);
+
+      this.logger.info("Blame successful", { fileName });
     } catch (err) {
+      console.log(err);
       this.logger.error("Failed to blame file", { err });
       window.showErrorMessage(`${EXTENSION_NAME}: Something went wrong`);
       this.statusBarItem.hide();
@@ -148,7 +168,7 @@ export class Blamer {
     return this.showBlameForFile(textEditor, fileName);
   }
 
-  async toggleBlameForFile(textEditor: TextEditor, fileName: string) {
+  async toggleBlameForFile(textEditor?: TextEditor, fileName?: string) {
     const fileData = await this.getRecordsForFile(fileName);
     return fileData
       ? this.clearBlameForFile(fileName)
